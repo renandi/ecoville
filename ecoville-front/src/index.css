@@ -1,0 +1,50 @@
+/* :root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: #333
+} */
+
+body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-image: url('assets/testefundo6.png');
+  background-repeat: repeat; 
+  background-size: auto;     
+  background-position: top left;  
+}
+
+
+/* body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  
+  background-image: url('assets/teste-fundo5.png');
+  background-repeat: repeat;
+  background-size: auto;
+
+  filter: blur(4px); 
+  z-index: -1; 
+} */
