@@ -35,7 +35,7 @@ public class Endereco {
     @Column(nullable = false, length = 10)
     private String numero;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = true, length = 100)
     private String complemento;
 
     @Column(nullable = false, precision = 5)
