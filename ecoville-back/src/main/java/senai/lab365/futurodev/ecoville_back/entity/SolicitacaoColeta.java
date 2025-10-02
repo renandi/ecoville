@@ -1,11 +1,19 @@
 package senai.lab365.futurodev.ecoville_back.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import senai.lab365.futurodev.ecoville_back.enums.StatusColeta;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
 public class SolicitacaoColeta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,12 +35,12 @@ public class SolicitacaoColeta {
     private String feedback;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_residencial_id")
-    private Usuario id_usuario;
+    @JoinColumn(name = "usuarioResidencialId")
+    private Usuario idUsuario;
 
     @ManyToOne
-    @JoinColumn(name="coletor_id")
-    private Usuario id_coletor;
+    @JoinColumn(name="coletorId")
+    private Usuario idColetor;
 
 
 }
