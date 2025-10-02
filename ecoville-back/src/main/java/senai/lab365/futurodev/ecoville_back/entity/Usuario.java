@@ -34,7 +34,7 @@ public class Usuario {
     private Perfil perfil = Perfil.RESIDENCIAL;
 
     @OneToOne
-    @JoinColumn(name="endereco_id", nullable = false)
-    private Endereco id_endereco;
+    @JoinColumn(name="enderecoId", nullable = false)
+    private Endereco idEndereco;
 
 }
