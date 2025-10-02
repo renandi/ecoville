@@ -22,7 +22,7 @@ public class Usuario {
     private String nome;
 
     @Column(nullable = false, length = 50)
-    private String nome_de_usuario;
+    private String nomeDeUsuario;
 
     @Column(nullable = false, length = 100)
     private String email;
@@ -37,4 +37,12 @@ public class Usuario {
     @JoinColumn(name="enderecoId", nullable = false)
     private Endereco idEndereco;
 
+    public Usuario(String nome, String nomeDeUsuario, String email, String senha, Perfil perfil, Endereco idEndereco) {
+        this.nome = nome;
+        this.nomeDeUsuario = nomeDeUsuario;
+        this.email = email;
+        this.senha = senha;
+        this.perfil = perfil;
+        this.idEndereco = idEndereco;
+    }
 }
