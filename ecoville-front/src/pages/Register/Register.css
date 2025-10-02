@@ -13,6 +13,18 @@ body {
   flex-direction: column;
 }
 
+.section-endereco{
+  display: flex;
+  flex-direction: column;
+
+}
+
+.section-geo{
+  display: flex;
+  flex-direction: row;
+    justify-content: space-between;
+  }
+
 .cadastro-container {
   display: flex;
   justify-content: center;

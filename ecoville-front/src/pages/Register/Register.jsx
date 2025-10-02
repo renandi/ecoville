@@ -171,13 +171,28 @@ function Register() {
                 value={estado}
                 onChange={(e) => setEstado(e.target.value)}
               >
-                <option value="">Selecione o estado</option>
+                <option value="">Estado</option>
                 {estados.map((uf) => (
                   <option key={uf.sigla} value={uf.sigla}>
                     {uf.nome}
                   </option>
                 ))}
               </select>
+              <input type="text" placeholder="Numero" value={numero} />
+              <input
+                type="text"
+                placeholder="Complemento"
+                value={complemento}
+              />
+            </div>
+          
+            <h3>Geolocalização</h3>
+            <div className="section-geo">
+            
+
+              <input type="text" placeholder="Latitude" value={latitude} />
+
+              <input type="text" placeholder="Longitude" value={longitude} />
             </div>
             <button type="submit">Cadastrar</button>
           </form>
