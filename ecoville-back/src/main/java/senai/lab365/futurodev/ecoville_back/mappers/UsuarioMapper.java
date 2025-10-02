@@ -21,11 +21,11 @@ public class UsuarioMapper {
     public static Usuario toEntity (UsuarioRequestDto dto) {
         return new Usuario(
                 dto.nome(),
-                dto.nome_de_usuario(),
+                dto.nomeDeUsuario(),
                 dto.email(),
                 dto.senha(),
                 dto.perfil(),
-                dto.idEndereco()
+                dto.endereco()
                 );
     }
 }
