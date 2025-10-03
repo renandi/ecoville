@@ -112,19 +112,49 @@ function Register() {
       toast.warning("O usuario é obrigatório.");
       return;
     }
-
     if (!senha.trim()) {
       toast.warning("A senha é obrigatória.");
       return;
     }
-
     if (senha !== confirmarSenha) {
       toast.warning("Senhas não coincidem.");
       return;
     }
+    if (!cep.trim()) {
+      toast.warning("CEP é obrigatório.");
+    }
+    if (!logradouro.trim()) {
+      toast.warning("Logradouro é obrigatório.");
+    }
+    if (!estado.trim()) {
+      toast.warning("Estado é obrigatório.");
+    }
+    if (!cidade.trim()) {
+      toast.warning("Cidade é obrigatório.");
+    }
+    if (!bairro.trim()) {
+      toast.warning("Bairro é obrigatório.");
+    }
+    if (!numero.trim()) {
+      toast.warning("Numero é obrigatório.");
+    }
+    if (!latitude.trim()) {
+      toast.warning("Latitude é obrigatório.");
+    }
+    if (!longitude.trim()) {
+      toast.warning("Longitude é obrigatório.");
+    }
+
+    if (!confirmado){
+      toast.warning("Confirme a sua localização.");
+    }
+
+    const payload = {
+      nome:usuario,
+    }
 
     try {
-      const response = await fetch("", {
+      const response = await fetch("http://localhost:8080/api/usuarios", {
         //implementar endpoint correto
         method: "POST",
         headers: {
@@ -208,7 +238,6 @@ function Register() {
                   type="text"
                   placeholder="Logradouro"
                   value={logradouro}
-                  readOnly
                 />
                 <input
                   type="text"
@@ -234,6 +263,7 @@ function Register() {
                 <select
                   value={estado}
                   onChange={(e) => setEstado(e.target.value)}
+                  readOnly
                 >
                   <option value="">Estado</option>
                   {estados.map((uf) => (
@@ -289,7 +319,7 @@ function Register() {
                 Confirmo que essa é a localização informada
               </label>
             </div>
-            <button type="submit">Cadastrar</button>
+            <button type="submit" disabled={!confirmado}>Cadastrar</button>
           </form>
         </div>
       </div>
