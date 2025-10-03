@@ -2,6 +2,20 @@ import { useState } from "react";
 import "./Register.css";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
+import { MapContainer, Marker, TileLayer, useMap } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
+import markerIcon from "leaflet/dist/images/marker-icon.png";
+import markerShadow from "leaflet/dist/images/marker-shadow.png";
+
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: markerIcon2x,
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+});
 
 function Register() {
   const [usuario, setusuario] = useState("");
@@ -16,6 +30,8 @@ function Register() {
   const [complemento, setComplemento] = useState("");
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
+  const [position, setPosition] = useState(null);
+  const [confirmado, setConfirmado] = useState(false);
   const navigate = useNavigate();
   const estados = [
     { sigla: "AC", nome: "Acre" },
@@ -67,6 +83,25 @@ function Register() {
       } catch (error) {
         toast.error("Erro ao consultar o CEP:" + error);
       }
+    }
+  };
+
+  function MoverMapa({ position }) {
+    const map = useMap();
+
+    if (position) {
+      map.setView(position, 13);
+    }
+
+    return null;
+  }
+
+  const handleLocalizar = (e) => {
+    e.preventDefault();
+    const lat = parseFloat(latitude);
+    const lng = parseFloat(longitude);
+    if (!isNaN(lat) && !isNaN(lng)) {
+      setPosition([lat, lng]);
     }
   };
 
@@ -133,66 +168,126 @@ function Register() {
                 value={usuario}
                 onChange={(e) => setusuario(e.target.value)}
               />
-              <input
-                type="password"
-                placeholder="Senha"
-                value={senha}
-                onChange={(e) => setSenha(e.target.value)}
-              />
-              <input
-                type="password"
-                placeholder="Confirmar senha"
-                value={confirmarSenha}
-                onChange={(e) => setConfirmarSenha(e.target.value)}
-              />
+              <div className="linha">
+                <input
+                  type="password"
+                  placeholder="Senha"
+                  value={senha}
+                  onChange={(e) => setSenha(e.target.value)}
+                />
+                <input
+                  type="password"
+                  placeholder="Confirmar senha"
+                  value={confirmarSenha}
+                  onChange={(e) => setConfirmarSenha(e.target.value)}
+                />
+              </div>
             </div>
 
             <div className="section-endereco">
               <h3>Endereço</h3>
-              <input
-                type="text"
-                name="cep"
-                placeholder="CEP"
-                value={cep}
-                onChange={(e) => setCep(e.target.value)}
-                onBlur={buscaCep}
-                maxLength={8}
-              />
+              <div className="linha">
+                <input
+                  type="text"
+                  placeholder="CEP"
+                  value={cep}
+                  onChange={(e) => setCep(e.target.value)}
+                  onBlur={buscaCep}
+                  maxLength={8}
+                />
+                <input
+                  type="text"
+                  placeholder="Número"
+                  value={numero}
+                  onChange={(e) => setNumero(e.target.value)}
+                />
+              </div>
 
-              <input
-                type="text"
-                placeholder="Logradouro"
-                value={logradouro}
-                readOnly
-              />
-              <input type="text" placeholder="Bairro" value={bairro} readOnly />
-              <input type="text" placeholder="Cidade" value={cidade} readOnly />
-              <select
-                value={estado}
-                onChange={(e) => setEstado(e.target.value)}
-              >
-                <option value="">Estado</option>
-                {estados.map((uf) => (
-                  <option key={uf.sigla} value={uf.sigla}>
-                    {uf.nome}
-                  </option>
-                ))}
-              </select>
-              <input type="text" placeholder="Numero" value={numero} />
-              <input
-                type="text"
-                placeholder="Complemento"
-                value={complemento}
-              />
+              <div className="linha">
+                <input
+                  type="text"
+                  placeholder="Logradouro"
+                  value={logradouro}
+                  readOnly
+                />
+                <input
+                  type="text"
+                  placeholder="Complemento"
+                  value={complemento}
+                  onChange={(e) => setComplemento(e.target.value)}
+                />
+              </div>
+
+              <div className="linha">
+                <input
+                  type="text"
+                  placeholder="Bairro"
+                  value={bairro}
+                  readOnly
+                />
+                <input
+                  type="text"
+                  placeholder="Cidade"
+                  value={cidade}
+                  readOnly
+                />
+                <select
+                  value={estado}
+                  onChange={(e) => setEstado(e.target.value)}
+                >
+                  <option value="">Estado</option>
+                  {estados.map((uf) => (
+                    <option key={uf.sigla} value={uf.sigla}>
+                      {uf.nome}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
-          
+
             <h3>Geolocalização</h3>
             <div className="section-geo">
-            
+              <input
+                type="number"
+                step="any"
+                placeholder="Latitude"
+                value={latitude}
+                onChange={(e) => setLatitude(e.target.value)}
+              />
 
-              <input type="text" placeholder="Latitude" value={latitude} />
+              <input
+                type="number"
+                step="any"
+                placeholder="Longitude"
+                value={longitude}
+                onChange={(e) => setLongitude(e.target.value)}
+              />
 
-              <input type="text" placeholder="Longitude" value={longitude} />
+              <button onClick={handleLocalizar}>Localizar</button>
+            </div>
+            <MapContainer
+              style={{ height: "400px", width: "80%", margin: "0 auto" }}
+              center={position || [-23.5505, -46.6333]}
+              zoom={position ? 13 : 5}
+              scrollWheelZoom={true}
+            >
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+
+              {position && <Marker position={position} />}
+              {position && <MoverMapa position={position} />}
+            </MapContainer>
+            <div className="confirmacao-local">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={confirmado}
+                  onChange={(e) => setConfirmado(e.target.checked)}
+                />
+                Confirmo que essa é a localização informada
+              </label>
             </div>
             <button type="submit">Cadastrar</button>
           </form>

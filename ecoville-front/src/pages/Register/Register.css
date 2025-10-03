@@ -1,5 +1,5 @@
 :root {
-  --login-input-border: #ccc; 
+  --login-input-border: #ccc;
 }
 
 body {
@@ -8,28 +8,56 @@ body {
   background-color: #f5f5f5;
 }
 
-.section-conta{
+h3 {
+  color: #27632a;
+}
+
+.section-conta {
   display: flex;
   flex-direction: column;
 }
 
-.section-endereco{
+.section-endereco {
   display: flex;
   flex-direction: column;
-
 }
 
-.section-geo{
+.linha {
   display: flex;
-  flex-direction: row;
-    justify-content: space-between;
-  }
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.linha input,
+.linha select {
+  flex: 1;
+}
+
+.section-geo {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.section-geo input {
+  flex: 1;
+  padding: 8px;
+}
+
+.section-geo button {
+  padding: 8px 16px;
+  white-space: nowrap;
+  margin-bottom: 20px;
+}
+
 
 .cadastro-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
+  overflow-y: auto;
 }
 
 .cadastro-box {
@@ -50,11 +78,13 @@ body {
 .cadastro-form h2 {
   margin: 0 0 10px 0;
   color: #2e7d32;
+  text-align: center;
 }
 
 .cadastro-form p {
   margin: 0 0 20px 0;
   color: #555;
+  text-align: center;
 }
 
 .cadastro-form form {
@@ -95,4 +125,16 @@ body {
 
 .cadastro-form button:hover {
   background-color: #27632a;
+}
+
+.confirmacao-local {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 16px;
+  color: #0a2214; /* verde suave */
+}
+
+.confirmacao-local input[type="checkbox"] {
+  margin-right: 8px;
+  transform: scale(1.2);
 }
