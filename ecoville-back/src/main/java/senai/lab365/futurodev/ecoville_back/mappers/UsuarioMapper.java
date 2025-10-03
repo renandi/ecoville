@@ -9,9 +9,7 @@ public class UsuarioMapper {
     public static UsuarioResponseDto toDto(Usuario usuario) {
         return new UsuarioResponseDto(
                 usuario.getId(),
-                usuario.getNome(),
                 usuario.getNomeDeUsuario(),
-                usuario.getEmail(),
                 usuario.getSenha(),
                 usuario.getPerfil(),
                 usuario.getIdEndereco()
@@ -20,9 +18,7 @@ public class UsuarioMapper {
 
     public static Usuario toEntity (UsuarioRequestDto dto) {
         return new Usuario(
-                dto.nome(),
                 dto.nomeDeUsuario(),
-                dto.email(),
                 dto.senha(),
                 dto.perfil(),
                 dto.endereco()
