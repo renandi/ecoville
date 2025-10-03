@@ -1,5 +1,7 @@
 package senai.lab365.futurodev.ecoville_back.DTO;
 
+import senai.lab365.futurodev.ecoville_back.enums.Perfil;
+
 public class UsuarioDTO {
     private Long id;
     private String nome;
