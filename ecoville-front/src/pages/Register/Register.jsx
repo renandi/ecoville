@@ -122,48 +122,66 @@ function Register() {
     }
     if (!cep.trim()) {
       toast.warning("CEP é obrigatório.");
+      return;
     }
     if (!logradouro.trim()) {
       toast.warning("Logradouro é obrigatório.");
+      return;
     }
     if (!estado.trim()) {
       toast.warning("Estado é obrigatório.");
+      return;
     }
     if (!cidade.trim()) {
       toast.warning("Cidade é obrigatório.");
+      return;
     }
     if (!bairro.trim()) {
       toast.warning("Bairro é obrigatório.");
+      return;
     }
     if (!numero.trim()) {
       toast.warning("Numero é obrigatório.");
+      return;
     }
     if (!latitude.trim()) {
       toast.warning("Latitude é obrigatório.");
+      return;
     }
     if (!longitude.trim()) {
       toast.warning("Longitude é obrigatório.");
+      return;
     }
 
-    if (!confirmado){
+    if (!confirmado) {
       toast.warning("Confirme a sua localização.");
+      return;
     }
 
     const payload = {
-      nome:usuario,
-    }
-
+      nomeDeUsuario: usuario,
+      senha: senha,
+      perfil: "RESIDENCIAL",
+      endereco: {
+        cep,
+        logradouro,
+        bairro,
+        cidade,
+        estado,
+        numero,
+        complemento,
+        latitude,
+        longitude,
+      },
+    };
+    console.log(payload)
     try {
       const response = await fetch("http://localhost:8080/api/usuarios", {
-        //implementar endpoint correto
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          usuario,
-          senha,
-        }),
+        body: JSON.stringify(payload),
       });
 
       if (response.ok) {
@@ -178,7 +196,7 @@ function Register() {
       }
     } catch (error) {
       console.error("Erro:", error);
-      alert("Erro ao conectar com o servidor.");
+      toast.error("Erro ao conectar com o servidor.");
     }
   };
 
@@ -238,6 +256,7 @@ function Register() {
                   type="text"
                   placeholder="Logradouro"
                   value={logradouro}
+                  onChange={(e) => setLogradouro(e.target.value)}
                 />
                 <input
                   type="text"
@@ -319,7 +338,9 @@ function Register() {
                 Confirmo que essa é a localização informada
               </label>
             </div>
-            <button type="submit" disabled={!confirmado}>Cadastrar</button>
+            <button type="submit">
+              Cadastrar
+            </button>
           </form>
         </div>
       </div>
