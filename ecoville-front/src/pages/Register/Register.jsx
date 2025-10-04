@@ -112,28 +112,76 @@ function Register() {
       toast.warning("O usuario é obrigatório.");
       return;
     }
-
     if (!senha.trim()) {
       toast.warning("A senha é obrigatória.");
       return;
     }
-
     if (senha !== confirmarSenha) {
       toast.warning("Senhas não coincidem.");
       return;
     }
+    if (!cep.trim()) {
+      toast.warning("CEP é obrigatório.");
+      return;
+    }
+    if (!logradouro.trim()) {
+      toast.warning("Logradouro é obrigatório.");
+      return;
+    }
+    if (!estado.trim()) {
+      toast.warning("Estado é obrigatório.");
+      return;
+    }
+    if (!cidade.trim()) {
+      toast.warning("Cidade é obrigatório.");
+      return;
+    }
+    if (!bairro.trim()) {
+      toast.warning("Bairro é obrigatório.");
+      return;
+    }
+    if (!numero.trim()) {
+      toast.warning("Numero é obrigatório.");
+      return;
+    }
+    if (!latitude.trim()) {
+      toast.warning("Latitude é obrigatório.");
+      return;
+    }
+    if (!longitude.trim()) {
+      toast.warning("Longitude é obrigatório.");
+      return;
+    }
 
+    if (!confirmado) {
+      toast.warning("Confirme a sua localização.");
+      return;
+    }
+
+    const payload = {
+      nomeDeUsuario: usuario,
+      senha: senha,
+      perfil: "RESIDENCIAL",
+      endereco: {
+        cep,
+        logradouro,
+        bairro,
+        cidade,
+        estado,
+        numero,
+        complemento,
+        latitude,
+        longitude,
+      },
+    };
+    console.log(payload)
     try {
-      const response = await fetch("", {
-        //implementar endpoint correto
+      const response = await fetch("http://localhost:8080/api/usuarios", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          usuario,
-          senha,
-        }),
+        body: JSON.stringify(payload),
       });
 
       if (response.ok) {
@@ -148,7 +196,7 @@ function Register() {
       }
     } catch (error) {
       console.error("Erro:", error);
-      alert("Erro ao conectar com o servidor.");
+      toast.error("Erro ao conectar com o servidor.");
     }
   };
 
@@ -208,7 +256,7 @@ function Register() {
                   type="text"
                   placeholder="Logradouro"
                   value={logradouro}
-                  readOnly
+                  onChange={(e) => setLogradouro(e.target.value)}
                 />
                 <input
                   type="text"
@@ -234,6 +282,7 @@ function Register() {
                 <select
                   value={estado}
                   onChange={(e) => setEstado(e.target.value)}
+                  readOnly
                 >
                   <option value="">Estado</option>
                   {estados.map((uf) => (
@@ -289,7 +338,9 @@ function Register() {
                 Confirmo que essa é a localização informada
               </label>
             </div>
-            <button type="submit">Cadastrar</button>
+            <button type="submit">
+              Cadastrar
+            </button>
           </form>
         </div>
       </div>

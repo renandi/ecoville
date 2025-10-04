@@ -5,9 +5,7 @@ import senai.lab365.futurodev.ecoville_back.enums.Perfil;
 
 public record UsuarioResponseDto(
         Integer id,
-        String nome,
-        String nome_de_usuario,
-        String email,
+        String nomeDeUsuario,
         String senha,
         Perfil perfil,
         Endereco idEndereco

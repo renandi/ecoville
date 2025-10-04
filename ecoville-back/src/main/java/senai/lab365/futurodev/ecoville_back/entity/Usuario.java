@@ -18,14 +18,8 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, length = 100)
-    private String nome;
-
     @Column(nullable = false, length = 50)
     private String nomeDeUsuario;
-
-    @Column(nullable = false, length = 100)
-    private String email;
 
     @Column(nullable = false)
     private String senha;
@@ -37,10 +31,8 @@ public class Usuario {
     @JoinColumn(name="enderecoId", nullable = false)
     private Endereco idEndereco;
 
-    public Usuario(String nome, String nomeDeUsuario, String email, String senha, Perfil perfil, Endereco idEndereco) {
-        this.nome = nome;
+    public Usuario(String nomeDeUsuario, String senha, Perfil perfil, Endereco idEndereco) {
         this.nomeDeUsuario = nomeDeUsuario;
-        this.email = email;
         this.senha = senha;
         this.perfil = perfil;
         this.idEndereco = idEndereco;
