@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import plantaLogin from "../../assets/planta-login.jpg";
 import { ToastContainer, toast } from "react-toastify";
 import { Navigate, useNavigate, Link } from "react-router";
 import LoginLogo from "../../assets/logo.png";
@@ -47,7 +46,7 @@ function LoginPage() {
     <div className="cadastro-container">
       <div className="cadastro-box-lg">
         <div className="cadastro-banner">
-          <img src={plantaLogin} alt="Banner" />
+          <img className src="/imagem.avif" alt="Banner" />
         </div>
         <div className="cadastro-form">
           <img
@@ -61,9 +60,9 @@ function LoginPage() {
             }}
           />
           <h2>
-            Bem vindo ao <span style={{ color: "#28a745" }}>Recicla365!</span>
+            Bem vindo ao <span style={{ color: "#28a745" }}>EcoVille!</span>
           </h2>
-          <p>Sua plataforma de gerenciamento sustentável.</p>
+          <p>Gerenciamento eficaz de suas coletas.</p>
           <form onSubmit={handleLogin}>
             <input
               type="email"
