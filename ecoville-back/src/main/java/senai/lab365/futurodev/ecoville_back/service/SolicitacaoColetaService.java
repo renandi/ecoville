@@ -13,6 +13,8 @@ import senai.lab365.futurodev.ecoville_back.repository.UsuarioRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 
+// Arrumar error Long / Integer
+
 @Service
 public class SolicitacaoColetaService {
 
