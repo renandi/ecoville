@@ -29,4 +29,6 @@ public class ItemColeta {
     private SolicitacaoColeta idSolicitacao;
 
 
+    public void setSolicitacaoColeta(SolicitacaoColeta solicitacao) {
+    }
 }
