@@ -19,7 +19,7 @@ public class SolicitacaoColetaController {
 
     // Criar nova solicitação
     @PostMapping
-    public ResponseEntity<SolicitacaoColeta> criarSolicitacao(@RequestParam Long usuarioId,
+    public ResponseEntity<SolicitacaoColeta> criarSolicitacao(@RequestParam Integer usuarioId,
                                                               @RequestBody SolicitacaoColetaCadastroDTO dto) {
         SolicitacaoColeta created = solicitacaoService.criarSolicitacao(usuarioId, dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);

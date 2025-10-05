@@ -24,11 +24,11 @@ public class SolicitacaoColetaService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public SolicitacaoColeta criarSolicitacao(Long usuarioId, SolicitacaoColetaCadastroDTO dto) {
+    public SolicitacaoColeta criarSolicitacao(Integer usuarioId, SolicitacaoColetaCadastroDTO dto) {
         Usuario usuario = usuarioRepository.findById(usuarioId).orElseThrow();
 
         SolicitacaoColeta solicitacao = new SolicitacaoColeta();
-        solicitacao.setUsuarioResidencial(usuario.getId());
+        solicitacao.setUsuarioResidencial(Long.valueOf(usuario.getId()));
         solicitacao.setDataSolicitacao(LocalDateTime.now().toLocalDate());
         solicitacao.setDataAgendada(dto.getDataAgendada());
         solicitacao.setObservacoes(dto.getObservacoes());
@@ -47,11 +47,11 @@ public class SolicitacaoColetaService {
     }
 
     public List<SolicitacaoColeta> listarMinhasSolicitacoes(Long usuarioId) {
-        return solicitacaoRepository.findByUsuarioResidencialId(usuarioId);
+        return solicitacaoRepository.findByUsuarioResidencialId(Math.toIntExact(usuarioId));
     }
 
     public SolicitacaoColeta atualizarSolicitacao(Long id, SolicitacaoColetaCadastroDTO dto) {
-        SolicitacaoColeta solicitacao = solicitacaoRepository.findById(id).orElseThrow();
+        SolicitacaoColeta solicitacao = solicitacaoRepository.findById(Math.toIntExact(id)).orElseThrow();
         solicitacao.setDataAgendada(dto.getDataAgendada());
         solicitacao.setObservacoes(dto.getObservacoes());
 
@@ -72,27 +72,27 @@ public class SolicitacaoColetaService {
     }
 
     public SolicitacaoColeta aceitarSolicitacao(Long id, Long coletorId) {
-        SolicitacaoColeta solicitacao = solicitacaoRepository.findById(id).orElseThrow();
-        Usuario coletor = usuarioRepository.findById(coletorId).orElseThrow();
-        solicitacao.setColetor(coletor.getId());
+        SolicitacaoColeta solicitacao = solicitacaoRepository.findById(Math.toIntExact(id)).orElseThrow();
+        Usuario coletor = usuarioRepository.findById(Math.toIntExact(coletorId)).orElseThrow();
+        solicitacao.setColetor(Long.valueOf(coletor.getId()));
         solicitacao.setStatus(StatusColeta.ACEITA);
         return solicitacaoRepository.save(solicitacao);
     }
 
     public SolicitacaoColeta cancelarSolicitacao(Long id) {
-        SolicitacaoColeta solicitacao = solicitacaoRepository.findById(id).orElseThrow();
+        SolicitacaoColeta solicitacao = solicitacaoRepository.findById(Math.toIntExact(id)).orElseThrow();
         solicitacao.setStatus(StatusColeta.CANCELADA);
         return solicitacaoRepository.save(solicitacao);
     }
 
     public SolicitacaoColeta finalizarSolicitacao(Long id) {
-        SolicitacaoColeta solicitacao = solicitacaoRepository.findById(id).orElseThrow();
+        SolicitacaoColeta solicitacao = solicitacaoRepository.findById(Math.toIntExact(id)).orElseThrow();
         solicitacao.setStatus(StatusColeta.FINALIZADA);
         return solicitacaoRepository.save(solicitacao);
     }
 
     public SolicitacaoColeta adicionarFeedback(Long id, String feedback) {
-        SolicitacaoColeta solicitacao = solicitacaoRepository.findById(id).orElseThrow();
+        SolicitacaoColeta solicitacao = solicitacaoRepository.findById(Math.toIntExact(id)).orElseThrow();
         solicitacao.setFeedback(feedback);
         return solicitacaoRepository.save(solicitacao);
     }

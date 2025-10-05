@@ -16,10 +16,10 @@ public class SolicitacaoColeta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    private Long idUsuario;  // Usuário Residencial
-    private Long idColetor;  // Coletor que aceita a coleta
+    private Long idUsuario;
+    private Long idColetor;
 
     private LocalDate dataSolicitacao;
     private LocalDate dataAgendada;
@@ -33,10 +33,8 @@ public class SolicitacaoColeta {
     private String feedback;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "solicitacao_id")
     private List<ItemColeta> items;
 
-    // Métodos auxiliares
 
     public void setUsuarioResidencial(Long usuarioId) {
         this.idUsuario = usuarioId;

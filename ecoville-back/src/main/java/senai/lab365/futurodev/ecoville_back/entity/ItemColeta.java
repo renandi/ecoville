@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import senai.lab365.futurodev.ecoville_back.enums.EstadoMaterial;
 import senai.lab365.futurodev.ecoville_back.enums.TipoMaterial;
+
+import java.math.BigDecimal;
 
 @Entity
 @Getter
@@ -19,16 +22,16 @@ public class ItemColeta {
     private TipoMaterial tipo;
 
     @Column(nullable = false)
-    private Double quantidadeEstimadaKg;
+    private BigDecimal quantidadeEstimadaKg;
 
     @Column(nullable = false)
-    private Double quantidadeValidadaKg;
+    private BigDecimal quantidadeValidadaKg;
+
+    @Enumerated(EnumType.STRING)
+    private EstadoMaterial estado;
 
     @ManyToOne
     @JoinColumn(nullable = false, name = "solicitacaoId")
-    private SolicitacaoColeta idSolicitacao;
+    private SolicitacaoColeta solicitacaoColeta;
 
-
-    public void setSolicitacaoColeta(SolicitacaoColeta solicitacao) {
-    }
 }
