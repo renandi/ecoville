@@ -17,7 +17,6 @@ public class SolicitacaoColetaController {
 
     private final SolicitacaoColetaService solicitacaoService;
 
-    // Criar nova solicitação
     @PostMapping
     public ResponseEntity<SolicitacaoColeta> criarSolicitacao(@RequestParam Integer usuarioId,
                                                               @RequestBody SolicitacaoColetaCadastroDTO dto) {
@@ -25,13 +24,11 @@ public class SolicitacaoColetaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
-    // Listar minhas solicitações
     @GetMapping("/minhas")
     public ResponseEntity<List<SolicitacaoColeta>> listarMinhas(@RequestParam Long usuarioId) {
         return ResponseEntity.ok(solicitacaoService.listarMinhasSolicitacoes(usuarioId));
     }
 
-    // Atualizar solicitação
     @PutMapping("/minhas/{id}")
     public ResponseEntity<SolicitacaoColeta> atualizarSolicitacao(@PathVariable Long id,
                                                                   @RequestBody SolicitacaoColetaCadastroDTO dto) {
@@ -39,34 +36,29 @@ public class SolicitacaoColetaController {
         return ResponseEntity.ok(updated);
     }
 
-    // Listar coletas disponíveis
     @GetMapping("/disponiveis")
     public ResponseEntity<List<SolicitacaoColeta>> listarDisponiveis() {
         return ResponseEntity.ok(solicitacaoService.listarDisponiveis());
     }
 
-    // Aceitar coleta
     @PatchMapping("/{id}/aceitar")
     public ResponseEntity<SolicitacaoColeta> aceitarSolicitacao(@PathVariable Long id, @RequestParam Long coletorId) {
         SolicitacaoColeta accepted = solicitacaoService.aceitarSolicitacao(id, coletorId);
         return ResponseEntity.ok(accepted);
     }
 
-    // Cancelar coleta
     @PatchMapping("/{id}/cancelar")
     public ResponseEntity<SolicitacaoColeta> cancelarSolicitacao(@PathVariable Long id) {
         SolicitacaoColeta canceled = solicitacaoService.cancelarSolicitacao(id);
         return ResponseEntity.ok(canceled);
     }
 
-    // Finalizar coleta
     @PatchMapping("/{id}/finalizar")
     public ResponseEntity<SolicitacaoColeta> finalizarSolicitacao(@PathVariable Long id) {
         SolicitacaoColeta finished = solicitacaoService.finalizarSolicitacao(id);
         return ResponseEntity.ok(finished);
     }
-
-    // Adicionar feedback
+    
     @PatchMapping("/{id}/feedback")
     public ResponseEntity<SolicitacaoColeta> adicionarFeedback(@PathVariable Long id, @RequestBody String feedback) {
         SolicitacaoColeta withFeedback = solicitacaoService.adicionarFeedback(id, feedback);
