@@ -30,7 +30,8 @@ function LoginPage() {
 
       if (response.ok) {
         toast.success("Login realizado com sucesso");
-        localStorage.setItem("usuarioID", data.usuario.id); //precisa armazenar o tipo de user quando o backend tiver
+        // TODO: Armazenar o tipo de usuário no localStorage quando o backend retornar essa informação
+        localStorage.setItem("usuarioID", data.usuario.id); 
         navigate("/dashboard");
       } else {
         toast.warning("Credenciais inválidas!!");
