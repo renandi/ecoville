@@ -24,17 +24,17 @@ public class SolicitacaoColeta {
     private LocalDate dataSolicitacao;
     private LocalDate dataAgendada;
 
+    @Column(length = 500)
     private String observacoes;
 
     @Enumerated(EnumType.STRING)
     private StatusColeta status = StatusColeta.AGUARDANDO;
 
-    @Column(nullable = true)
+    @Column(length = 500)
     private String feedback;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemColeta> items;
-
 
     public void setUsuarioResidencial(Long usuarioId) {
         this.idUsuario = usuarioId;
@@ -42,10 +42,6 @@ public class SolicitacaoColeta {
 
     public void setColetor(Long coletorId) {
         this.idColetor = coletorId;
-    }
-
-    public void setItems(List<ItemColeta> items) {
-        this.items = items;
     }
 
     public void adicionarFeedback(String feedback) {

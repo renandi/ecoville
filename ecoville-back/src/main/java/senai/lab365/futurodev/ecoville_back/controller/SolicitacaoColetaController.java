@@ -1,7 +1,5 @@
 package senai.lab365.futurodev.ecoville_back.controller;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import senai.lab365.futurodev.ecoville_back.dtos.SolicitacaoColetaCadastroDTO;
@@ -12,16 +10,18 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/coletas")
-@RequiredArgsConstructor
 public class SolicitacaoColetaController {
 
     private final SolicitacaoColetaService solicitacaoService;
 
+    public SolicitacaoColetaController(SolicitacaoColetaService solicitacaoService) {
+        this.solicitacaoService = solicitacaoService;
+    }
+
     @PostMapping
     public ResponseEntity<SolicitacaoColeta> criarSolicitacao(@RequestParam Integer usuarioId,
                                                               @RequestBody SolicitacaoColetaCadastroDTO dto) {
-        SolicitacaoColeta created = solicitacaoService.criarSolicitacao(usuarioId, dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+        return ResponseEntity.ok(solicitacaoService.criarSolicitacao(usuarioId, dto));
     }
 
     @GetMapping("/minhas")
@@ -29,39 +29,25 @@ public class SolicitacaoColetaController {
         return ResponseEntity.ok(solicitacaoService.listarMinhasSolicitacoes(usuarioId));
     }
 
-    @PutMapping("/minhas/{id}")
-    public ResponseEntity<SolicitacaoColeta> atualizarSolicitacao(@PathVariable Long id,
-                                                                  @RequestBody SolicitacaoColetaCadastroDTO dto) {
-        SolicitacaoColeta updated = solicitacaoService.atualizarSolicitacao(id, dto);
-        return ResponseEntity.ok(updated);
-    }
-
-    @GetMapping("/disponiveis")
-    public ResponseEntity<List<SolicitacaoColeta>> listarDisponiveis() {
-        return ResponseEntity.ok(solicitacaoService.listarDisponiveis());
-    }
-
     @PatchMapping("/{id}/aceitar")
-    public ResponseEntity<SolicitacaoColeta> aceitarSolicitacao(@PathVariable Long id, @RequestParam Long coletorId) {
-        SolicitacaoColeta accepted = solicitacaoService.aceitarSolicitacao(id, coletorId);
-        return ResponseEntity.ok(accepted);
+    public ResponseEntity<SolicitacaoColeta> aceitar(@PathVariable Integer id,
+                                                     @RequestParam Long coletorId) {
+        return ResponseEntity.ok(solicitacaoService.aceitarSolicitacao(id, coletorId));
     }
 
     @PatchMapping("/{id}/cancelar")
-    public ResponseEntity<SolicitacaoColeta> cancelarSolicitacao(@PathVariable Long id) {
-        SolicitacaoColeta canceled = solicitacaoService.cancelarSolicitacao(id);
-        return ResponseEntity.ok(canceled);
+    public ResponseEntity<SolicitacaoColeta> cancelar(@PathVariable Integer id) {
+        return ResponseEntity.ok(solicitacaoService.cancelarSolicitacao(id));
     }
 
     @PatchMapping("/{id}/finalizar")
-    public ResponseEntity<SolicitacaoColeta> finalizarSolicitacao(@PathVariable Long id) {
-        SolicitacaoColeta finished = solicitacaoService.finalizarSolicitacao(id);
-        return ResponseEntity.ok(finished);
+    public ResponseEntity<SolicitacaoColeta> finalizar(@PathVariable Integer id) {
+        return ResponseEntity.ok(solicitacaoService.finalizarSolicitacao(id));
     }
-    
+
     @PatchMapping("/{id}/feedback")
-    public ResponseEntity<SolicitacaoColeta> adicionarFeedback(@PathVariable Long id, @RequestBody String feedback) {
-        SolicitacaoColeta withFeedback = solicitacaoService.adicionarFeedback(id, feedback);
-        return ResponseEntity.ok(withFeedback);
+    public ResponseEntity<SolicitacaoColeta> feedback(@PathVariable Integer id,
+                                                      @RequestParam String feedback) {
+        return ResponseEntity.ok(solicitacaoService.adicionarFeedback(id, feedback));
     }
 }
