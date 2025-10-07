@@ -79,7 +79,7 @@ function LoginPage() {
             <button type="submit">Acessar</button>
           </form>
           <div style={{ marginTop: 16 }}>
-            <Link to="/criar-conta">Criar conta</Link>
+            <Link to="/criar-conta" className="btn-secundario">Criar conta</Link>
           </div>
         </div>
       </div>
