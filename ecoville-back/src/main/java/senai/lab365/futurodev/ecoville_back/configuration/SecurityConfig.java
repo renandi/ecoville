@@ -46,7 +46,6 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .formLogin(AbstractHttpConfigurer::disable)
-                .httpBasic(Customizer.withDefaults())
                 .logout(logout -> logout
                         .logoutUrl("/api/logout")
                         .logoutSuccessHandler((req, res, auth) -> res.setStatus(HttpServletResponse.SC_OK))
