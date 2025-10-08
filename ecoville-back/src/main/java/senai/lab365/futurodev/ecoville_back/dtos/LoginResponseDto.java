@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
+import senai.lab365.futurodev.ecoville_back.enums.Perfil;
 
 @Getter
 @Builder
@@ -11,4 +12,5 @@ import lombok.Getter;
 public class LoginResponseDto {
     private String message;
     private String username;
+    private Perfil perfil;
 }
