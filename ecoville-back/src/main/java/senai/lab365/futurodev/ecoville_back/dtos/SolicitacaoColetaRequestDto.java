@@ -7,8 +7,8 @@ import java.util.List;
 
 @Getter
 @Setter
-public class SolicitacaoColetaCadastroDTO {
+public class SolicitacaoColetaRequestDto {
     private LocalDate dataAgendada;
     private String observacoes;
-    private List<ItemColetaDTO> itens;
+    private List<ItemColetaRequestDto> itens;
 }

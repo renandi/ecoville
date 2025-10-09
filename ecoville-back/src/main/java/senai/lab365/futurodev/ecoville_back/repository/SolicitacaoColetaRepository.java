@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface SolicitacaoColetaRepository extends JpaRepository<SolicitacaoColeta, Integer> {
 
-    List<SolicitacaoColeta> findByIdUsuario(Long idUsuario);
+//    List<SolicitacaoColeta> findByIdUsuario(Long idUsuario);
 
+    List<SolicitacaoColeta> findByUsuarioResidencialId(Long idUsuario);
 }

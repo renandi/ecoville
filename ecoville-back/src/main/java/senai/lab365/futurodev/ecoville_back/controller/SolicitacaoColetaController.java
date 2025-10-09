@@ -1,26 +1,25 @@
 package senai.lab365.futurodev.ecoville_back.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import senai.lab365.futurodev.ecoville_back.dtos.SolicitacaoColetaCadastroDTO;
+import senai.lab365.futurodev.ecoville_back.dtos.SolicitacaoColetaRequestDto;
+import senai.lab365.futurodev.ecoville_back.dtos.SolicitacaoColetaResponseDto;
 import senai.lab365.futurodev.ecoville_back.entity.SolicitacaoColeta;
 import senai.lab365.futurodev.ecoville_back.service.SolicitacaoColetaService;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/coletas")
 public class SolicitacaoColetaController {
 
     private final SolicitacaoColetaService solicitacaoService;
 
-    public SolicitacaoColetaController(SolicitacaoColetaService solicitacaoService) {
-        this.solicitacaoService = solicitacaoService;
-    }
-
     @PostMapping
-    public ResponseEntity<SolicitacaoColeta> criarSolicitacao(@RequestParam Integer usuarioId,
-                                                              @RequestBody SolicitacaoColetaCadastroDTO dto) {
+    public ResponseEntity<SolicitacaoColetaResponseDto> criarSolicitacao(@RequestParam Integer usuarioId,
+                                                                         @RequestBody SolicitacaoColetaRequestDto dto) {
         return ResponseEntity.ok(solicitacaoService.criarSolicitacao(usuarioId, dto));
     }
 
@@ -31,7 +30,7 @@ public class SolicitacaoColetaController {
 
     @PatchMapping("/{id}/aceitar")
     public ResponseEntity<SolicitacaoColeta> aceitar(@PathVariable Integer id,
-                                                     @RequestParam Long coletorId) {
+                                                     @RequestParam Integer coletorId) {
         return ResponseEntity.ok(solicitacaoService.aceitarSolicitacao(id, coletorId));
     }
 
