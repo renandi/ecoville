@@ -35,13 +35,24 @@ public class Endereco {
     @Column(nullable = false, length = 10)
     private String numero;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = true, length = 100)
     private String complemento;
 
-    @Column(nullable = false, precision = 5)
+    @Column(nullable = false, precision = 10, scale = 6)
     private BigDecimal latitude;
 
-    @Column(nullable = false, precision = 5)
+    @Column(nullable = false, precision = 10, scale = 6)
     private BigDecimal longitude;
 
+    public Endereco(String cep, String logradouro, String estado, String cidade, String bairro, String numero, String complemento, BigDecimal latitude, BigDecimal longitude) {
+        this.cep = cep;
+        this.logradouro = logradouro;
+        this.estado = estado;
+        this.cidade = cidade;
+        this.bairro = bairro;
+        this.numero = numero;
+        this.complemento = complemento;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 }

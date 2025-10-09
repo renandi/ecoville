@@ -1,122 +1,194 @@
 import { useState } from "react";
-import plantaLogin from "../../assets/planta-login.jpg";
 import "./Register.css";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
+import { MapContainer, Marker, TileLayer, useMap } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
+import markerIcon from "leaflet/dist/images/marker-icon.png";
+import markerShadow from "leaflet/dist/images/marker-shadow.png";
+
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: markerIcon2x,
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+});
 
 function Register() {
-  const [nome, setNome] = useState("");
-  const [genero, setGenero] = useState("");
-  const [cpf, setCPF] = useState("");
-  const [dataNasc, setDataNasc] = useState("");
+  const [usuario, setusuario] = useState("");
   const [senha, setSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
-  const [email, setEmail] = useState("");
+  const [cep, setCep] = useState("");
+  const [logradouro, setLogradouro] = useState("");
+  const [estado, setEstado] = useState("");
+  const [cidade, setCidade] = useState("");
+  const [bairro, setBairro] = useState("");
+  const [numero, setNumero] = useState("");
+  const [complemento, setComplemento] = useState("");
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
+  const [position, setPosition] = useState(null);
+  const [confirmado, setConfirmado] = useState(false);
   const navigate = useNavigate();
+  const estados = [
+    { sigla: "AC", nome: "Acre" },
+    { sigla: "AL", nome: "Alagoas" },
+    { sigla: "AP", nome: "Amapá" },
+    { sigla: "AM", nome: "Amazonas" },
+    { sigla: "BA", nome: "Bahia" },
+    { sigla: "CE", nome: "Ceará" },
+    { sigla: "DF", nome: "Distrito Federal" },
+    { sigla: "ES", nome: "Espírito Santo" },
+    { sigla: "GO", nome: "Goiás" },
+    { sigla: "MA", nome: "Maranhão" },
+    { sigla: "MT", nome: "Mato Grosso" },
+    { sigla: "MS", nome: "Mato Grosso do Sul" },
+    { sigla: "MG", nome: "Minas Gerais" },
+    { sigla: "PA", nome: "Pará" },
+    { sigla: "PB", nome: "Paraíba" },
+    { sigla: "PR", nome: "Paraná" },
+    { sigla: "PE", nome: "Pernambuco" },
+    { sigla: "PI", nome: "Piauí" },
+    { sigla: "RJ", nome: "Rio de Janeiro" },
+    { sigla: "RN", nome: "Rio Grande do Norte" },
+    { sigla: "RS", nome: "Rio Grande do Sul" },
+    { sigla: "RO", nome: "Rondônia" },
+    { sigla: "RR", nome: "Roraima" },
+    { sigla: "SC", nome: "Santa Catarina" },
+    { sigla: "SP", nome: "São Paulo" },
+    { sigla: "SE", nome: "Sergipe" },
+    { sigla: "TO", nome: "Tocantins" },
+  ];
 
-  const formatarCPF = (cpf) => {
-    const apenasNumeros = cpf.replace(/\D/g, "");
-
-    if (apenasNumeros.length <= 3) {
-      return apenasNumeros;
+  const buscaCep = async () => {
+    const cepLimpo = cep.replace(/\D/g, "");
+    if (cepLimpo.length === 8) {
+      try {
+        const response = await fetch(
+          `https://viacep.com.br/ws/${cepLimpo}/json/`
+        );
+        const data = await response.json();
+        console.log(data);
+        if (!data.erro) {
+          setLogradouro(data.logradouro);
+          setBairro(data.bairro);
+          setCidade(data.localidade);
+          setEstado(data.uf);
+        } else {
+          toast.warning("CEP não encontrado");
+        }
+      } catch (error) {
+        toast.error("Erro ao consultar o CEP:" + error);
+      }
     }
-    if (apenasNumeros.length <= 6) {
-      return `${apenasNumeros.slice(0, 3)}.${apenasNumeros.slice(3, 6)}`;
-    }
-    if (apenasNumeros.length <= 9) {
-      return `${apenasNumeros.slice(0, 3)}.${apenasNumeros.slice(
-        3,
-        6
-      )}.${apenasNumeros.slice(6, 9)}`;
-    }
-    return `${apenasNumeros.slice(0, 3)}.${apenasNumeros.slice(
-      3,
-      6
-    )}.${apenasNumeros.slice(6, 9)}-${apenasNumeros.slice(9, 11)}`;
   };
 
-  const handleCPFChange = (e) => {
-    const formattedCPF = formatarCPF(e.target.value);
-    setCPF(formattedCPF);
+  function MoverMapa({ position }) {
+    const map = useMap();
+
+    if (position) {
+      map.setView(position, 13);
+    }
+
+    return null;
+  }
+
+  const handleLocalizar = (e) => {
+    e.preventDefault();
+    const lat = parseFloat(latitude);
+    const lng = parseFloat(longitude);
+    if (!isNaN(lat) && !isNaN(lng)) {
+      setPosition([lat, lng]);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const cpfSemFormato = cpf.replace(/\D/g, "");
     // Validações
-    if (!nome.trim()) {
-      toast.warning("O nome é obrigatório.");
+    if (!usuario.trim()) {
+      toast.warning("O usuario é obrigatório.");
       return;
     }
-
-    if (!genero) {
-      toast.warning("O sexo é obrigatório.");
-      return;
-    }
-
-    if (!cpfSemFormato.trim() || cpfSemFormato.trim().length !== 11) {
-      toast.warning("O CPF é obrigatório e deve conter 11 dígitos.");
-      return;
-    }
-
-    if (!dataNasc) {
-      toast.warning("A data de nascimento é obrigatória.");
-      return;
-    }
-
-    const hoje = new Date();
-    const nascimento = new Date(dataNasc);
-    const idade = hoje.getFullYear() - nascimento.getFullYear();
-    const mes = hoje.getMonth() - nascimento.getMonth();
-    const dia = hoje.getDate() - nascimento.getDate();
-
-    const isMaiorDeIdade =
-      idade > 18 || (idade === 18 && (mes > 0 || (mes === 0 && dia >= 0)));
-    if (!isMaiorDeIdade) {
-      toast.warning("É necessário ter mais de 18 anos.");
-      return;
-    }
-
-    if (!email.trim()) {
-      toast.warning("O e-mail é obrigatório.");
-      return;
-    }
-
     if (!senha.trim()) {
       toast.warning("A senha é obrigatória.");
       return;
     }
-
     if (senha !== confirmarSenha) {
       toast.warning("Senhas não coincidem.");
       return;
     }
+    if (!cep.trim()) {
+      toast.warning("CEP é obrigatório.");
+      return;
+    }
+    if (!logradouro.trim()) {
+      toast.warning("Logradouro é obrigatório.");
+      return;
+    }
+    if (!estado.trim()) {
+      toast.warning("Estado é obrigatório.");
+      return;
+    }
+    if (!cidade.trim()) {
+      toast.warning("Cidade é obrigatório.");
+      return;
+    }
+    if (!bairro.trim()) {
+      toast.warning("Bairro é obrigatório.");
+      return;
+    }
+    if (!numero.trim()) {
+      toast.warning("Numero é obrigatório.");
+      return;
+    }
+    if (!latitude.trim()) {
+      toast.warning("Latitude é obrigatório.");
+      return;
+    }
+    if (!longitude.trim()) {
+      toast.warning("Longitude é obrigatório.");
+      return;
+    }
 
+    if (!confirmado) {
+      toast.warning("Confirme a sua localização.");
+      return;
+    }
+
+    const payload = {
+      nomeDeUsuario: usuario,
+      senha: senha,
+      perfil: "RESIDENCIAL",
+      endereco: {
+        cep,
+        logradouro,
+        bairro,
+        cidade,
+        estado,
+        numero,
+        complemento,
+        latitude,
+        longitude,
+      },
+    };
+    console.log(payload)
     try {
-      const response = await fetch("http://localhost:3000/usuarios", {
+      const response = await fetch("http://localhost:8080/api/usuarios", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          nome,
-          sexo: genero[0].toUpperCase(),
-          cpf: cpfSemFormato,
-          nascimento: dataNasc,
-          email,
-          senha,
-        }),
+        body: JSON.stringify(payload),
       });
 
       if (response.ok) {
         toast.success("Usuário cadastrado com sucesso!");
-        setNome("");
-        setGenero("");
-        setCPF("");
-        setDataNasc("");
+        setusuario("");
         setSenha("");
         setConfirmarSenha("");
-        setEmail("");
         navigate("/");
       } else {
         const errorData = await response.json();
@@ -124,70 +196,151 @@ function Register() {
       }
     } catch (error) {
       console.error("Erro:", error);
-      alert("Erro ao conectar com o servidor.");
+      toast.error("Erro ao conectar com o servidor.");
     }
   };
 
   return (
     <div className="cadastro-container">
       <div className="cadastro-box">
-        <div className="cadastro-banner">
-          <img src={plantaLogin} alt="Banner" />
-        </div>
         <div className="cadastro-form">
-          <h2>Cadastre-se no Recicla365!</h2>
+          <h2>Crie sua conta EcoVille!</h2>
           <p>Preencha os dados para criar sua conta.</p>
 
           <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="Nome"
-              value={nome}
-              onChange={(e) => setNome(e.target.value)}
-            />
+            <div className="section-conta">
+              <h3>Dados da conta</h3>
+              <input
+                type="text"
+                placeholder="Usuário"
+                value={usuario}
+                onChange={(e) => setusuario(e.target.value)}
+              />
+              <div className="linha">
+                <input
+                  type="password"
+                  placeholder="Senha"
+                  value={senha}
+                  onChange={(e) => setSenha(e.target.value)}
+                />
+                <input
+                  type="password"
+                  placeholder="Confirmar senha"
+                  value={confirmarSenha}
+                  onChange={(e) => setConfirmarSenha(e.target.value)}
+                />
+              </div>
+            </div>
 
-            <select value={genero} onChange={(e) => setGenero(e.target.value)}>
-              <option value="">Gênero</option>
-              <option value="M">Masculino</option>
-              <option value="F">Feminino</option>
-            </select>
+            <div className="section-endereco">
+              <h3>Endereço</h3>
+              <div className="linha">
+                <input
+                  type="text"
+                  placeholder="CEP"
+                  value={cep}
+                  onChange={(e) => setCep(e.target.value)}
+                  onBlur={buscaCep}
+                  maxLength={8}
+                />
+                <input
+                  type="text"
+                  placeholder="Número"
+                  value={numero}
+                  onChange={(e) => setNumero(e.target.value)}
+                />
+              </div>
 
-            <input
-              type="text"
-              placeholder="CPF"
-              value={cpf}
-              onChange={handleCPFChange}
-            />
+              <div className="linha">
+                <input
+                  type="text"
+                  placeholder="Logradouro"
+                  value={logradouro}
+                  onChange={(e) => setLogradouro(e.target.value)}
+                />
+                <input
+                  type="text"
+                  placeholder="Complemento"
+                  value={complemento}
+                  onChange={(e) => setComplemento(e.target.value)}
+                />
+              </div>
 
-            <input
-              type="date"
-              placeholder="Data de nascimento"
-              value={dataNasc}
-              onChange={(e) => setDataNasc(e.target.value)}
-            />
+              <div className="linha">
+                <input
+                  type="text"
+                  placeholder="Bairro"
+                  value={bairro}
+                  readOnly
+                />
+                <input
+                  type="text"
+                  placeholder="Cidade"
+                  value={cidade}
+                  readOnly
+                />
+                <select
+                  value={estado}
+                  onChange={(e) => setEstado(e.target.value)}
+                  readOnly
+                >
+                  <option value="">Estado</option>
+                  {estados.map((uf) => (
+                    <option key={uf.sigla} value={uf.sigla}>
+                      {uf.nome}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
 
-            <input
-              type="email"
-              placeholder="E-mail"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+            <h3>Geolocalização</h3>
+            <div className="section-geo">
+              <input
+                type="number"
+                step="any"
+                placeholder="Latitude"
+                value={latitude}
+                onChange={(e) => setLatitude(e.target.value)}
+              />
 
-            <input
-              type="password"
-              placeholder="Senha"
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
-            />
+              <input
+                type="number"
+                step="any"
+                placeholder="Longitude"
+                value={longitude}
+                onChange={(e) => setLongitude(e.target.value)}
+              />
 
-            <input
-              type="password"
-              placeholder="Confirmar senha"
-              value={confirmarSenha}
-              onChange={(e) => setConfirmarSenha(e.target.value)}
-            />
+              <button onClick={handleLocalizar}>Localizar</button>
+            </div>
+            <MapContainer
+              style={{ height: "400px", width: "80%", margin: "0 auto" }}
+              center={position || [-23.5505, -46.6333]}
+              zoom={position ? 13 : 5}
+              scrollWheelZoom={true}
+            >
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
 
-            <button type="submit">Cadastrar</button>
+              {position && <Marker position={position} />}
+              {position && <MoverMapa position={position} />}
+            </MapContainer>
+            <div className="confirmacao-local">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={confirmado}
+                  onChange={(e) => setConfirmado(e.target.checked)}
+                />
+                Confirmo que essa é a localização informada
+              </label>
+            </div>
+            <button type="submit">
+              Cadastrar
+            </button>
           </form>
         </div>
       </div>
