@@ -65,14 +65,14 @@ function CardResidente({ solicitacao, onCancelar, onEditar, onFeedback }) {
       <div className="card-actions">
         {solicitacao.status === "AGUARDANDO" && (
           <>
-            <button onClick={() => onEditar(solicitacao.id)}>Editar</button>
-            <button onClick={() => onCancelar(solicitacao.id)}>Cancelar</button>
+            <button className="btn-card" onClick={() => onEditar(solicitacao.id)}>Editar</button>
+            <button className="delete-btn" onClick={() => onCancelar(solicitacao.id)}>Cancelar</button>
           </>
         )}
 
         {(solicitacao.status === "COLETADA" ||
           solicitacao.status === "FINALIZADA") && (
-          <button onClick={() => onFeedback(solicitacao.id)}>Feedback</button>
+          <button className="btn-card" onClick={() => onFeedback(solicitacao.id)}>Feedback</button>
         )}
       </div>
     </div>

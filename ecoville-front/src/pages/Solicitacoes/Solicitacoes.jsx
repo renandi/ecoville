@@ -61,6 +61,11 @@ const Solicitacoes = () => {
   ];
 
   const [coletas, setColetas] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [feedbackText, setFeedbackText] = useState(
+    "Teste de feedback retornado pelo back-end"
+  );
+  const [selectedId, setSelectedId] = useState(null);
 
   const handleCancelar = (id) => {
     console.log("Cancelar solicitação", id);
@@ -74,8 +79,16 @@ const Solicitacoes = () => {
 
   const handleFeedback = (id) => {
     console.log("Feedback da solicitação", id);
-    // TODO: Implementar feedback, modal! (issue #12)
+    setSelectedId(id);
+    setOpenModal(true);
   };
+
+  const closeModal = () => {
+    setOpenModal(false);
+    setFeedbackText("");
+    setSelectedId(null);
+  };
+
   const navigate = useNavigate();
 
   const cadastrar = () => {
@@ -126,9 +139,18 @@ const Solicitacoes = () => {
               solicitacao={sol}
               onCancelar={(id) => handleCancelar(id)}
               onEditar={(id) => handleEditar(id)}
-              onFeedback={(id) => handleFeedback(id)}
+              onFeedback={(id) => handleFeedback(sol.numeroSolicitacao)}
             />
           ))}
+          {openModal && (
+            <div className="overlay">
+              <div className="modal">
+                <h2>Feedback da solicitação #{selectedId}</h2>
+                <p>{feedbackText}</p>
+                <button onClick={closeModal}>Fechar</button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>
