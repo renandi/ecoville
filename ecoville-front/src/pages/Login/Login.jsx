@@ -7,20 +7,20 @@ import "./Login.css"
 
 function LoginPage() {
 
-  const [email, setEmail] = useState("");
+  const [usuario, setUsuario] = useState("");
   const [senha, setSenha] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
      e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3000/login", {
+      const response = await fetch("http://localhost:8080/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: email,
+          nomeDeUsuario: usuario,
           senha: senha,
         }),
       });
@@ -29,9 +29,10 @@ function LoginPage() {
 
       if (response.ok) {
         toast.success("Login realizado com sucesso");
+        console.log(data)
         // TODO: Armazenar o tipo de usuário no localStorage quando o backend retornar essa informação (ver issue #10)
-        localStorage.setItem("usuarioID", data.usuario.id); 
-        navigate("/dashboard");
+        localStorage.setItem("tipoPerfil", data.perfil); 
+        navigate("/home");
       } else {
         toast.warning("Credenciais inválidas!!");
       }
@@ -39,6 +40,7 @@ function LoginPage() {
       console.log("Resposta:", data);
     } catch (error) {
       console.log(error);
+      
       toast.error("Erro no consumo da api");
     }
   };
@@ -66,10 +68,10 @@ function LoginPage() {
           <p>Gerenciamento eficaz de suas coletas.</p>
           <form onSubmit={handleLogin}>
             <input
-              type="email"
-              placeholder="E-mail"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="text"
+              placeholder="Usuario"
+              value={usuario}
+              onChange={(e) => setUsuario(e.target.value)}
             />
             <input
               type="password"
