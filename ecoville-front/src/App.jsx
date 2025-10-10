@@ -4,6 +4,7 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Home from "./pages/Home/Home";
 import Solicitacoes from "./pages/Solicitacoes/Solicitacoes"
+import Coletas from "./pages/Coletas/Coletas"
 import Places from "./pages/Places/Places";
 import RegisterPlace from "./pages/RegisterPlace/RegisterPlace";
 import { ToastContainer } from "react-toastify";
@@ -20,6 +21,7 @@ function App() {
         <Route path="/criar-conta" Component={Register} />
         <Route path="/home" Component={Home} />
         <Route path="/solicitacoes" Component={Solicitacoes} />
+        <Route path="/coletas" Component={Coletas} />
         <Route path="/locais" Component={Places} />
         <Route path="/locais/novo" Component={RegisterPlace} />
       </Routes>
