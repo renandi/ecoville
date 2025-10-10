@@ -3,16 +3,15 @@ import { ToastContainer, toast } from "react-toastify";
 import { Navigate, useNavigate, Link } from "react-router";
 import LoginLogo from "../../assets/logo.png";
 
-import "./Login.css"
+import "./Login.css";
 
 function LoginPage() {
-
   const [usuario, setUsuario] = useState("");
   const [senha, setSenha] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-     e.preventDefault();
+    e.preventDefault();
     try {
       const response = await fetch("http://localhost:8080/api/login", {
         method: "POST",
@@ -29,9 +28,8 @@ function LoginPage() {
 
       if (response.ok) {
         toast.success("Login realizado com sucesso");
-        console.log(data)
-        // TODO: Armazenar o tipo de usuário no localStorage quando o backend retornar essa informação (ver issue #10)
-        localStorage.setItem("tipoPerfil", data.perfil); 
+        console.log(data);
+        localStorage.setItem("tipoPerfil", data.perfil);
         navigate("/home");
       } else {
         toast.warning("Credenciais inválidas!!");
@@ -40,7 +38,7 @@ function LoginPage() {
       console.log("Resposta:", data);
     } catch (error) {
       console.log(error);
-      
+
       toast.error("Erro no consumo da api");
     }
   };
@@ -82,7 +80,9 @@ function LoginPage() {
             <button type="submit">Acessar</button>
           </form>
           <div style={{ marginTop: 16 }}>
-            <Link to="/criar-conta" className="btn-secundario">Criar conta</Link>
+            <Link to="/criar-conta" className="btn-secundario">
+              Criar conta
+            </Link>
           </div>
         </div>
       </div>
