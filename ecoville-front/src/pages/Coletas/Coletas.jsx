@@ -71,12 +71,12 @@ const Coletas = () => {
 
   const handleValidar = (id) => {
     console.log("Validar solicitação", id);
-    // TODO: Implementar validação(issue #16)
+    // TODO: Implementar validação( issue #16)
   };
 
   const handleColetar = (id) => {
     console.log("Coletar solicitação", id);
-    // TODO: Implementar coletar (issue #16)
+    // TODO: Implementar coletar ( issue #16)
   };
 
   const navigate = useNavigate();
